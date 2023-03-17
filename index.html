@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traffic Racer Game</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; background-color: #000; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="480" height="640"></canvas>
+   <img id="backgroundImage" src="https://i.ibb.co/fH8MF5m/background-1.png" class="hidden">
+  <img id="carImage" src="https://i.ibb.co/ypfWcc6/red-car-transformed.png" class="hidden">
+  <img id="obstacleImage" src="https://i.ibb.co/Sm3KYFt/blue-car-transformed.png" class="hidden">
+
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');const backgroundImage = document.getElementById('backgroundImage');
+const carImage = document.getElementById('carImage');
+const obstacleImage = document.getElementById('obstacleImage');
+
+const car = { x: canvas.width / 2 - 25, y: canvas.height - 100, width: 100, height: 100, speed: 5 };
+const obstacles = [];
+let frameCounter = 0;
+let score = 0;
+
+// Define road boundaries
+const roadLeft = 60;
+const roadRight = canvas.width - 80;
+const roadWidth = roadRight - roadLeft;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') {
+    car.x -= car.speed;
+  } else if (e.key === 'ArrowRight') {
+    car.x += car.speed;
+  } else if (e.key === 'ArrowUp') {
+    car.y -= car.speed;
+  } else if (e.key === 'ArrowDown') {
+    car.y += car.speed;
+  }
+});
+
+function addObstacle() {
+  const obstacle = {
+    x: roadLeft + Math.random() * (roadWidth - 50),
+    y: -100,
+    width: 100,
+    height: 100,
+    speed: 2
+  };
+  obstacles.push(obstacle);
+}
+
+function updateObstacles() {
+  for (const obstacle of obstacles) {
+    obstacle.y += obstacle.speed;
+
+    if (obstacle.y > canvas.height) {
+     
+score++;
+obstacles.shift();
+}
+}
+}function checkCollision(obstacle) {
+  const left = car.x < obstacle.x + obstacle.width;
+  const right = car.x + car.width > obstacle.x;
+  const top = car.y < obstacle.y + obstacle.height;
+  const bottom = car.y + car.height > obstacle.y;
+
+  return left && right && top && bottom;
+}
+
+function detectCollisions() {
+  for (const obstacle of obstacles) {
+    if (checkCollision(obstacle)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function draw() {
+   drawBackground();
+ ctx.drawImage(carImage, car.x, car.y, car.width, car.height);
+
+  for (const obstacle of obstacles) {
+    ctx.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+  }
+
+  ctx.font = '20px Arial';
+  ctx.fillStyle = 'white';
+  ctx.fillText(`Score: ${score}`, 10, 30);
+
+  // if (detectCollisions()) {
+  //   ctx.font = '40px Arial';
+  //   ctx.fillStyle = 'red';
+  //   ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2);
+  //   return;
+  // }
+
+  frameCounter++;
+  if (frameCounter % 100 === 0) {
+   
+addObstacle();
+}
+updateObstacles();
+requestAnimationFrame(draw);
+}// Wait for all images to load before starting the game
+
+let backgroundOffset = 0;
+const backgroundSpeed = 2;
+
+function drawBackground() {
+  ctx.drawImage(backgroundImage, 0, backgroundOffset, canvas.width, canvas.height);
+  ctx.drawImage(backgroundImage, 0, backgroundOffset - canvas.height, canvas.width, canvas.height);
+  
+  backgroundOffset += backgroundSpeed;
+  if (backgroundOffset >= canvas.height) {
+    backgroundOffset = 0;
+  }
+}
+
+window.onload = function() {
+  draw();
+}
+  </script>
+</body>
+</html>
