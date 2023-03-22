@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JPG to PNG Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: purple;
+      padding: 10px 20px;
+      color: white;
+    }
+
+    .logo {
+      width: 50px;
+      height: auto;
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .button, input[type="file"], input[type="submit"] {
+      background-color: purple;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .footer {
+      background-color: purple;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="logo.jpg" alt="Your Logo" class="logo">
+  </div>
+
+  <div class="center">
+    <input type="file" id="inputFile" accept=".jpg, .jpeg">
+    <input type="submit" value="Convert to PNG" onclick="convertToPNG()">
+    <a id="downloadLink" class="button" style="display: none;">Download PNG</a>
+  </div>
+
+  <div class="footer">
+    &copy; 2023 Your Company. All rights reserved.
+  </div>
+
+  <script>
+    function convertToPNG() {
+      const inputFile = document.getElementById('inputFile');
+      const downloadLink = document.getElementById('downloadLink');
+      if (!inputFile.files[0]) {
+        alert('Please select a JPG file to convert.');
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.src = URL.createObjectURL(inputFile.files[0]);
+      img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+          const url = URL.createObjectURL(blob);
+          downloadLink.href = url;
+          downloadLink.download = 'converted-image.png';
+          downloadLink.style.display = 'block';
+        }, 'image/png');
+      };
+    }
+  </script>
+
+</body>
+</html>

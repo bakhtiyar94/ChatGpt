@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage with Purple Theme</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: purple;
+      padding: 10px 20px;
+      color: white;
+    }
+
+    .logo {
+      width: 60px;
+      height: auto;
+    }
+
+    .submenu {
+      list-style-type: none;
+      display: flex;
+      gap: 10px;
+    }
+
+    .submenu li {
+      cursor: pointer;
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: purple;
+      color: white;
+         padding: 10px 500px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .footer {
+      background-color: purple;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="logo.jpg" alt="Your Logo" class="logo">
+    <ul class="submenu">
+      <li>Menu Item 1</li>
+      <li>Menu Item 2</li>
+      <li>Menu Item 3</li>
+    </ul>
+  </div>
+
+  <div class="center">
+    <a href="https://pinacoidal-evaluati.000webhostapp.com/JPGToPng.html" class="button">JPG TO PNG</a>
+    <a href="https://pinacoidal-evaluati.000webhostapp.com/PngToJPG.html" class="button">PNG TO JPG</a>
+    
+  </div>
+
+  <div class="footer">
+    &copy; 2023 Your Company. All rights reserved.
+  </div>
+
+</body>
+</html>
